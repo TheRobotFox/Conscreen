@@ -31,3 +31,5 @@ typedef struct info_ANSI ANSI;
 
 bool Conscreen_ansi_change(Conscreen_ansi old, Conscreen_ansi new, Conscreen_char *buffer, size_t max);
 
+#define ESC "\x1B"
+#define CSI "["
