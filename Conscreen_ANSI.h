@@ -34,5 +34,5 @@ void Conscreen_ansi_change(Conscreen_ansi old_ansi, Conscreen_ansi new_ansi, Con
 void Conscreen_ansi_changeB(Conscreen_ansi new_ansi, Conscreen_string out);
 
 
-#define ESC STR("\033")
-#define CSI STR("[")
+#define ESC "\033"
+#define CSI "["

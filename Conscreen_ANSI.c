@@ -6,17 +6,17 @@ void Conscreen_ansi_change(Conscreen_ansi old_ansi, Conscreen_ansi new_ansi, Con
 
 	#define EVAL(field, on, off)						\
 		if(_CMP(new_ansi, old_ansi, field)){						\
-			Conscreen_string_append(out, ESC CSI);		\
+			Conscreen_string_append(out, STR(ESC CSI));		\
 			if(new_ansi.field)								\
-				Conscreen_string_append(out, STR(#on) STR("m"));	\
+				Conscreen_string_append(out, STR(#on "m"));	\
 			else										\
-				Conscreen_string_append(out, STR(#off) STR("m"));	\
+				Conscreen_string_append(out, STR(#off "m"));	\
 		}												\
 
 	if(_CMP(old_ansi, new_ansi, normal)){
 		if(new_ansi.normal){
 			// abort if normal
-			Conscreen_string_append(out, ESC CSI STR("0m"));
+			Conscreen_string_append(out, STR(ESC CSI "0m"));
 			return;
 		}
 	}
@@ -37,10 +37,10 @@ void Conscreen_ansi_change(Conscreen_ansi old_ansi, Conscreen_ansi new_ansi, Con
 	#define _EXP(c) c.r, c.g, c.b
 
 	if(!_CMP(old_ansi.forground, new_ansi.forground))
-		Conscreen_string_sprintf(out, ESC CSI STR("38;2;%d;%d;%dm"), _EXP(new_ansi.forground));
+		Conscreen_string_sprintf(out, STR(ESC CSI "38;2;%d;%d;%dm"), _EXP(new_ansi.forground));
 
 	if(!_CMP(old_ansi.background, new_ansi.background))
-		Conscreen_string_sprintf(out, ESC CSI STR("48;2;%d;%d;%dm"), _EXP(new_ansi.background));
+		Conscreen_string_sprintf(out, STR(ESC CSI "48;2;%d;%d;%dm"), _EXP(new_ansi.background));
 
 }
 
@@ -48,7 +48,7 @@ void Conscreen_ansi_changeB(Conscreen_ansi new_ansi, Conscreen_string out)
 {
 	static Conscreen_ansi current={.nec=1};
 	if(current.nec){
-		Conscreen_string_append(out, ESC CSI STR("0m"));
+		Conscreen_string_append(out, STR(ESC CSI "0m"));
 		current=CONSCREEN_ANSI_NORMAL;
 	}
 	Conscreen_ansi_change(current, new_ansi, out);

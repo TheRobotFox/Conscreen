@@ -10,6 +10,7 @@ bool Conscreen_init()
 
 	// Mouse Input
 	//
+	return false;
 }
 
 bool Conscreen_cleanup()
@@ -20,4 +21,7 @@ bool Conscreen_cleanup()
 	Conscreen_console_swap_buffer();
 
 	// free memory
+	Conscreen_screen_free();
+
+	return false;
 }

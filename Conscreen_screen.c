@@ -10,7 +10,7 @@ Conscreen_event Conscreen_screen_begin()
 	if(current_size.x*current_size.y != new_size.x*new_size.y){
 		current_size = new_size;
 		if(screen)
-			free(screen);
+			Conscreen_screen_free();
 		screen = malloc(new_size.x*new_size.y*sizeof(Conscreen_pixel));
 		return REDRAW;
 	}
@@ -51,3 +51,7 @@ void Conscreen_screen_flush()
 	WRITE(Conscreen_string_start(buffer), Conscreen_string_size(buffer));
 }
 
+void Conscreen_screen_free()
+{
+	free(screen);
+}

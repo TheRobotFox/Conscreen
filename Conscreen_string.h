@@ -4,16 +4,17 @@
 #include <string.h>
 #include "List/List.h"
 
-#define CONSCREEN_CHAR
-//#define CONSCREEN_WCHAR
+//#define CONSCREEN_CHAR
+#define CONSCREEN_WCHAR
 
 #ifdef CONSCREEN_WCHAR
 
 	#include <wchar.h>
 	typedef wchar_t Conscreen_char;
 	//TODO: Set local to UTF-8
-	#define STR(x) L##x
-	#define CHR(x) L##x
+	#define _XSTR(x) L##x
+	#define STR(x)  _XSTR(x)
+	#define CHR(x) _XSTR(x)
 
 	#define STRLEN wcslen
 	#define STRNCMP wcsncmp
