@@ -3,20 +3,21 @@
 
 bool Conscreen_init()
 {
-	// store Settings
-
-	// switch screenbuffer
-
-	// enable ANSI
+	// setup Console
+	Conscreen_console_ansi(true);
+	Conscreen_console_raw_input(true);
+	Conscreen_console_swap_buffer();
 
 	// Mouse Input
-
-	// No Keyboard echo
+	//
 }
 
 bool Conscreen_cleanup()
 {
-	// restore settings
-	// switch screenbuffer
+	// reset Console
+	Conscreen_console_ansi(true);
+	Conscreen_console_raw_input(true);
+	Conscreen_console_swap_buffer();
+
 	// free memory
 }

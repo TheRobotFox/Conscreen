@@ -1,24 +1,20 @@
 #include <stdint.h>
-#ifdef CONSCREEN_WCHAR
-
-	#include <tchar.h>
-	typedef wchar_t Conscreen_char;
-	//TODO: Set local to UTF-8
-
-#else
-
-	typedef char Conscreen_char;
-
-#endif
+#include "Conscreen_console.h"
+#include "Conscreen_ANSI.h"
 
 typedef struct
 {
-	uint8_t r,g,b;
-} Conscreen_color;
-
-typedef struct
-{
-	Conscreen_color foreground;
-	Conscreen_color background;
+	Conscreen_ansi style;
 	Conscreen_char character;
 } Conscreen_pixel;
+
+typedef enum{
+	NOTHING,
+	REDRAW
+} Conscreen_event;
+
+Conscreen_event Conscreen_screen_begin();
+void Conscreen_screen_clear();
+Conscreen_point Conscreen_screen_size();
+void Conscreen_screen_set(uint16_t x, uint16_t y, Conscreen_pixel p);
+void Conscreen_screen_flush();

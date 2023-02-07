@@ -1,3 +1,4 @@
+#include "Conscreen_screen.h"
 // Conscreen
 // Use Console as pixel buffer
 

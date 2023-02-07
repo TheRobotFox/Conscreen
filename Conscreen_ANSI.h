@@ -2,6 +2,7 @@
 //TODO: NowUanC
 #pragma once
 #include <stdint.h>
+#include "Conscreen_string.h"
 
 typedef struct
 {
@@ -13,6 +14,7 @@ typedef struct
 
 typedef struct
 {
+        uint8_t nec: 1;
         uint8_t normal:1; // 0
         uint8_t invert:1; // 7 | 27
         uint8_t strike:1; // 9 | 29
@@ -25,11 +27,11 @@ typedef struct
                         background;
 } Conscreen_ansi;
 
-typedef struct info_ANSI ANSI;
+#define Conscreen_ansi_default(R,G,B) (const Conscreen_ansi){0,0,0,0,0,0,0, {R,G,B}, { 0,0,0 }}
 
-#define Conscreen_ansi_default(R,G,B) (Conscreen_ansi){0,0,0,0,0,0, {R,G,B}, { 0,0,0 }}
+void Conscreen_ansi_change(Conscreen_ansi old_ansi, Conscreen_ansi new_ansi, Conscreen_string out);
+void Conscreen_ansi_changeB(Conscreen_ansi new_ansi, Conscreen_string out);
 
-bool Conscreen_ansi_change(Conscreen_ansi old, Conscreen_ansi new, Conscreen_char *buffer, size_t max);
 
-#define ESC "\x1B"
-#define CSI "["
+#define ESC STR("\033")
+#define CSI STR("[")
