@@ -4,8 +4,8 @@
 
 typedef struct
 {
-	Conscreen_ansi style;
 	Conscreen_char character;
+	Conscreen_ansi style;
 } Conscreen_pixel;
 
 typedef enum{
