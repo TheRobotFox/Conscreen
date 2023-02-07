@@ -35,6 +35,12 @@ void Conscreen_screen_set(uint16_t x, uint16_t y, Conscreen_pixel p)
 		screen[y*current_size.x+x] = p;
 }
 
+Conscreen_pixel Conscreen_screen_get(uint16_t x, uint16_t y)
+{
+	if(x<current_size.x && y<current_size.y)
+		return screen[y*current_size.x+x];
+}
+
 void Conscreen_screen_flush()
 {
 	Conscreen_string buffer = Conscreen_string_create();
