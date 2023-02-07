@@ -49,7 +49,7 @@ void Conscreen_ansi_changeB(Conscreen_ansi new_ansi, Conscreen_string out)
 	static Conscreen_ansi current={.nec=1};
 	if(current.nec){
 		Conscreen_string_append(out, ESC CSI STR("0m"));
-		current=Conscreen_ansi_default(225,225,225);
+		current=CONSCREEN_ANSI_NORMAL;
 	}
 	Conscreen_ansi_change(current, new_ansi, out);
 	current=new_ansi;

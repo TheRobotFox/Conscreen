@@ -28,6 +28,7 @@ typedef struct
 } Conscreen_ansi;
 
 #define CONSCREEN_ANSI_DEFAULT(R,G,B) (const Conscreen_ansi){0,0,0,0,0,0,0, {R,G,B}, { 0,0,0 }}
+#define CONSCREEN_ANSI_NORMAL CONSCREEN_ANSI_DEFAULT(225, 225, 225);
 
 void Conscreen_ansi_change(Conscreen_ansi old_ansi, Conscreen_ansi new_ansi, Conscreen_string out);
 void Conscreen_ansi_changeB(Conscreen_ansi new_ansi, Conscreen_string out);
