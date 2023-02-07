@@ -9,7 +9,7 @@ typedef struct
         uint8_t r,g,b;
 } Conscreen_color;
 
-#define CONSCREEN_ANSI_COLOR(R,G,B) (Conscreen_color){R,G,B}
+#define CONSCREEN_RGRGB(R,G,B) (Conscreen_color){R,G,B}
 
 
 typedef struct
