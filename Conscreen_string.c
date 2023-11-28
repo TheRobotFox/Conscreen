@@ -12,15 +12,20 @@ void Conscreen_string_free(Conscreen_string cs_string)
 
 void Conscreen_string_cut(Conscreen_string cs_string, size_t len)
 {
-	if(len<Conscreen_string_size(cs_string)){
+	if(len<Conscreen_string_length(cs_string)){
 		*((Conscreen_char*)List_get(cs_string, len)) = CHR('\0');
 		List_resize(cs_string, len);
 	}
 }
 
-size_t Conscreen_string_size(Conscreen_string cs_string)
+size_t Conscreen_string_length(Conscreen_string cs_string)
 {
 	return List_size(cs_string);
+}
+
+size_t Conscreen_string_size(Conscreen_string cs_string)
+{
+	return Conscreen_string_length(cs_string)*sizeof(Conscreen_char);
 }
 
 Conscreen_char* Conscreen_string_start(Conscreen_string cs_string)
@@ -45,7 +50,6 @@ void Conscreen_string_append(Conscreen_string cs_string_front, const Conscreen_c
 	unsigned long len = STRLEN(chars);
 
 	// reserve required memory
-	size_t size= Conscreen_string_size(cs_string_front)+len;
 	List_append(cs_string_front, chars, len+1); // grow to size
 	List_resize(cs_string_front, -1); // exclude \0
 }
@@ -55,7 +59,7 @@ void Conscreen_string_push(Conscreen_string cs_string, Conscreen_char c)
 	List_push(cs_string, &c);
 }
 
-int Conscreen_vsprintf(Conscreen_string cs_string, const Conscreen_char *fmt, va_list args)
+int Conscreen_string_vsprintf(Conscreen_string cs_string, const Conscreen_char *fmt, va_list args)
 {
 
 	va_list tmp;
@@ -65,12 +69,12 @@ int Conscreen_vsprintf(Conscreen_string cs_string, const Conscreen_char *fmt, va
 
 	#ifdef CONSCREEN_WCHAR
 
-	size_t space=List_capacity(cs_string)-Conscreen_string_size(cs_string);
+	size_t space=List_capacity(cs_string)-Conscreen_string_length(cs_string);
 
 	while((res = vswprintf(Conscreen_string_end(cs_string), space, fmt, tmp))<0)
 	{
 		List_reserve(cs_string, List_capacity(cs_string)*2);
-		space=List_capacity(cs_string)-Conscreen_string_size(cs_string);
+		space=List_capacity(cs_string)-Conscreen_string_length(cs_string);
 		va_copy(tmp, args);
 	}
 	List_append(cs_string, NULL, res); // grow list size
@@ -94,7 +98,7 @@ int Conscreen_string_sprintf(Conscreen_string cs_string, const Conscreen_char *f
 	va_list args;
 	va_start(args, fmt);
 
-	int res = Conscreen_vsprintf(cs_string, fmt, args);
+	int res = Conscreen_string_vsprintf(cs_string, fmt, args);
 	va_end(args);
 	return res;
 }

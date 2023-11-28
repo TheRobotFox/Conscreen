@@ -1,4 +1,6 @@
 #include "Conscreen_screen.h"
+#include <assert.h>
+#include "Conscreen.h"
 
 static Conscreen_pixel* screen=0;
 static Conscreen_point current_size = {0};
@@ -9,9 +11,15 @@ Conscreen_event Conscreen_screen_begin()
 
 	if(current_size.x*current_size.y != new_size.x*new_size.y){
 		current_size = new_size;
+		size_t pixels = new_size.x*new_size.y;
 		if(screen)
 			Conscreen_screen_free();
-		screen = malloc(new_size.x*new_size.y*sizeof(Conscreen_pixel));
+		screen = malloc(pixels*sizeof(Conscreen_pixel));
+
+		// Zero out
+		Conscreen_pixel p = {.character=0, {.normal=1}};
+		for(int i=0; i<pixels; i++)
+			screen[i]=p;
 		return REDRAW;
 	}
 	return NOTHING;
@@ -37,8 +45,12 @@ void Conscreen_screen_set(uint16_t x, uint16_t y, Conscreen_pixel p)
 
 Conscreen_pixel Conscreen_screen_get(uint16_t x, uint16_t y)
 {
+	//PRINTF(STR("Conscreen_screen_get %d,%d"), x, y);
+	//fflush(stdout);
 	if(x<current_size.x && y<current_size.y)
 		return screen[y*current_size.x+x];
+	//abort();
+	return (Conscreen_pixel){0,CONSCREEN_ANSI_NORMAL};
 }
 
 void Conscreen_screen_flush()
@@ -48,12 +60,16 @@ void Conscreen_screen_flush()
 	for(int i=0; i<current_size.x*current_size.y; i++)
 	{
 		if(i && (i%current_size.x)==0)
-			Conscreen_string_push(buffer, STR('\n'));
+			;//Conscreen_string_push(buffer, STR('\n'));
 
 		Conscreen_pixel p = screen[i];
+		if(!p.character)
+			p.character=CHR(' ');
 		Conscreen_ansi_changeB(p.style, buffer);
 		Conscreen_string_push(buffer, p.character);
 	}
+	//Conscreen_console_clear();
+	Conscreen_console_cursor_set((Conscreen_point){0,0});
 	WRITE(Conscreen_string_start(buffer), Conscreen_string_size(buffer));
 }
 

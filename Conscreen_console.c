@@ -46,7 +46,7 @@ struct Conscreen_diagnostic Conscreen_console_check()
 	Conscreen_console_swap_buffer();
 
 	// Check if cursor probe is funcional
-	Conscreen_point a,b;
+	Conscreen_point a={0,0},b={0,0};
 	PROBE;
 	if(b.x<0 || b.y<0)
 		return result;
@@ -160,6 +160,7 @@ Conscreen_point Conscreen_console_cursor_get()
 	goto error;
 
 success:
+	; // Make this a statement
 
 	// read numbers to buffer
 	#define SIZE 16
@@ -318,7 +319,6 @@ void Conscreen_console_raw_input(bool enable)
 
 
 
-
 	if(!raw_input && enable){
 #ifdef unix
 		tcgetattr(STDIN_FILENO, &old);
@@ -350,8 +350,6 @@ void Conscreen_console_raw_input(bool enable)
 		raw_input=true;
 
 	}else if(!enable && raw_input){
-
-
 
 #ifdef unix
 		tcsetattr(STDIN_FILENO, TCSAFLUSH, &old);
