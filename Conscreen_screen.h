@@ -1,3 +1,4 @@
+#pragma once
 #include <stdint.h>
 #include "Conscreen_console.h"
 #include "Conscreen_ANSI.h"

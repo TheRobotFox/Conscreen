@@ -1,5 +1,5 @@
 // Compatablility layer for console functions
-
+#pragma  once
 #include <stdint.h>
 #include <stdbool.h>
 #include "Conscreen_ANSI.h"

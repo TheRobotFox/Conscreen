@@ -1,3 +1,4 @@
+#pragma  once
 #include "Conscreen_screen.h"
 // Conscreen
 // Use Console as pixel buffer
@@ -6,6 +7,6 @@
 bool Conscreen_init();
 
 // Restore console state
-bool Conscreen_cleanup();
+bool Conscreen_deinit();
 
 

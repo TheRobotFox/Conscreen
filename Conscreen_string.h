@@ -1,3 +1,4 @@
+#pragma once
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdint.h>
@@ -20,7 +21,7 @@
 	#define STRNCMP wcsncmp
 	#define PUTS(str) wprintf(L"%ls\n", str)
 	#define PRINTF wprintf
-	#define _STR L"%ls"
+	#define _STR "%ls"
 
 #elif defined(CONSCREEN_CHAR)
 
@@ -45,6 +46,7 @@ typedef List Conscreen_string;
 Conscreen_string Conscreen_string_create();
 void Conscreen_string_free(Conscreen_string cs_string);
 size_t Conscreen_string_size(Conscreen_string cs_string);
+size_t Conscreen_string_length(Conscreen_string cs_string);
 
 Conscreen_char* Conscreen_string_start(Conscreen_string cs_string);
 Conscreen_char* Conscreen_string_end(Conscreen_string cs_string);
@@ -54,3 +56,4 @@ void Conscreen_string_cut(Conscreen_string cs_string, size_t len);
 void Conscreen_string_append(Conscreen_string cs_string, const Conscreen_char *chars);
 void Conscreen_string_push(Conscreen_string cs_string, Conscreen_char c);
 int Conscreen_string_sprintf(Conscreen_string cs_string, const Conscreen_char *fmt, ...);
+int Conscreen_string_vsprintf(Conscreen_string cs_string, const Conscreen_char *fmt, va_list args);
