@@ -20,9 +20,9 @@ Conscreen_event Conscreen_screen_begin()
 		Conscreen_pixel p = {.character=0, {.normal=1}};
 		for(int i=0; i<pixels; i++)
 			screen[i]=p;
-		return REDRAW;
+		return CS_REDRAW;
 	}
-	return NOTHING;
+	return CS_NOTHING;
 }
 
 void Conscreen_screen_clear()
@@ -49,8 +49,12 @@ Conscreen_pixel Conscreen_screen_get(uint16_t x, uint16_t y)
 	//fflush(stdout);
 	if(x<current_size.x && y<current_size.y)
 		return screen[y*current_size.x+x];
+<<<<<<< HEAD
 	//abort();
 	return (Conscreen_pixel){0,CONSCREEN_ANSI_NORMAL};
+=======
+	return (Conscreen_pixel){0};
+>>>>>>> 065ca87 (New List)
 }
 
 void Conscreen_screen_flush()

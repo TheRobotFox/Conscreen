@@ -1,6 +1,5 @@
 #include "Conscreen_console.h"
 #include <assert.h>
-#include "List/List.h"
 
 
 static struct{
@@ -33,7 +32,7 @@ char Conscreen_console_get_key()
 			List_resize(input_buffer.buffer, bytes);
 		input_buffer.index=0;
 	}
-	return *(char*)List_get(input_buffer.buffer, input_buffer.index++);
+	return LIST_get(char)(input_buffer.buffer, input_buffer.index++);
 }
 
 struct Conscreen_diagnostic Conscreen_console_check()

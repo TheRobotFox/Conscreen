@@ -10,8 +10,8 @@ typedef struct
 } Conscreen_pixel;
 
 typedef enum{
-	NOTHING,
-	REDRAW
+	CS_NOTHING,
+	CS_REDRAW
 } Conscreen_event;
 
 Conscreen_event Conscreen_screen_begin();
