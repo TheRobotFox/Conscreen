@@ -12,13 +12,8 @@ void Conscreen_string_free(Conscreen_string cs_string)
 
 void Conscreen_string_cut(Conscreen_string cs_string, size_t len)
 {
-<<<<<<< HEAD
-	if(len<Conscreen_string_length(cs_string)){
-		*((Conscreen_char*)List_get(cs_string, len)) = CHR('\0');
-=======
 	if(len<Conscreen_string_size(cs_string)){
 		LIST_get(Conscreen_char)(cs_string, len) = CHR('\0');
->>>>>>> 065ca87 (New List)
 		List_resize(cs_string, len);
 	}
 }

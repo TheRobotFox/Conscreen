@@ -5,7 +5,7 @@
 #include <string.h>
 #include "../List/List.h"
 
-//#define CONSCREEN_CHAR
+/* #define CONSCREEN_CHAR */
 #define CONSCREEN_WCHAR
 
 #ifdef CONSCREEN_WCHAR
