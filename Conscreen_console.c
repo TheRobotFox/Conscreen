@@ -1,5 +1,6 @@
 #include "Conscreen_console.h"
 #include <assert.h>
+#include <stdint.h>
 
 
 static struct{
@@ -50,7 +51,7 @@ struct Conscreen_diagnostic Conscreen_console_check()
 	if(b.x<0 || b.y<0)
 		return result;
 
-	WRITESTR("A"); // move cursor +1
+	WRITESTR(STR("A")); // move cursor +1
 	PROBE;
 	if(CHECK_ADVANCE(1))
 		result.check_support=1;
@@ -58,7 +59,7 @@ struct Conscreen_diagnostic Conscreen_console_check()
 		return result;
 
 	// SGR check
-	WRITESTR(ESC CSI "0mB");
+	WRITESTR(STR(ESC CSI "0mB"));
 
 	PROBE;
 	if(CHECK_ADVANCE(1))
@@ -66,9 +67,9 @@ struct Conscreen_diagnostic Conscreen_console_check()
 
 
 	// run color check
-	WRITESTR(ESC CSI "38;2;255;0;0m" ESC CSI "48;2;0;255;0mC");
-	WRITESTR(ESC CSI "38;2;255;255;0m" ESC CSI "48;2;0;255;255mD");
-	WRITESTR(ESC CSI "0m");
+	WRITESTR(STR(ESC CSI "38;2;255;0;0m" ESC CSI "48;2;0;255;0mC"));
+	WRITESTR(STR(ESC CSI "38;2;255;255;0m" ESC CSI "48;2;0;255;255mD"));
+	WRITESTR(STR(ESC CSI "0m"));
 
 
 	PROBE;
@@ -140,7 +141,7 @@ Conscreen_point Conscreen_console_cursor_get()
 	bool raw_input_backup = raw_input;
 	Conscreen_console_raw_input(true);
 
-	WRITESTR(ESC CSI "6n");
+	WRITESTR(STR(ESC CSI "6n"));
 
 	char c;
 
@@ -156,7 +157,10 @@ Conscreen_point Conscreen_console_cursor_get()
 			List_push(input_buffer.buffer, &c);
 		}
 	}
-	goto error;
+error:
+	Conscreen_console_raw_input(raw_input_backup);
+	return (Conscreen_point){-1,-1};
+
 
 success:
 	; // Make this a statement
@@ -179,7 +183,8 @@ success:
 		buff[index++]=c;
 	}
 	buff[index]=0;
-	Conscreen_point p = {.y = strtol(buff, &tmp, 10)-1};
+
+	Conscreen_point p = {.y = (int16_t)strtol(buff, &tmp, 10)-1};
 
 	index=0;
 	while( (c = getchar()) != EOF || index >= SIZE )
@@ -196,10 +201,6 @@ success:
 
 	Conscreen_console_raw_input(raw_input_backup);
 	return p;
-
-error:
-	Conscreen_console_raw_input(raw_input_backup);
-	return (Conscreen_point){-1,-1};
 }
 
 void Conscreen_console_cursor_set(Conscreen_point pos)
@@ -239,7 +240,7 @@ void Conscreen_console_cursor(bool hide)
 // Screenbuffer
 void Conscreen_console_clear()
 {
-	WRITESTR(ESC CSI "2J");
+	WRITESTR(STR(ESC CSI "2J"));
 }
 
 void Conscreen_console_swap_buffer()
@@ -298,7 +299,7 @@ void Conscreen_console_ansi(bool enable)
 	if(enable){
 		dwMode |= 0x4;
 	}else{
-		WRITESTR(ESC CSI "0m");
+		WRITESTR(STR(ESC CSI "0m"));
 		dwMode &= ~0x4;
 	}
 	SetConsoleMode(h,dwMode);
@@ -321,7 +322,7 @@ void Conscreen_console_raw_input(bool enable)
 	if(!raw_input && enable){
 #ifdef unix
 		tcgetattr(STDIN_FILENO, &old);
-		struct termios new;
+		struct termios new_settings;
 
 #elif defined(_WIN32)
 		GetConsoleMode(h, &old);
@@ -330,13 +331,13 @@ void Conscreen_console_raw_input(bool enable)
 
 
 
-		new=old; // copy settings
+		new_settings=old; // copy settings
 
 
 
 #ifdef unix
-		new.c_lflag &= ~(ICANON | ECHO); // enable immediate input; stop input echo
-		tcsetattr(STDIN_FILENO, TCSAFLUSH, &new);
+		new_settings.c_lflag &= ~(ICANON | ECHO); // enable immediate input; stop input echo
+		tcsetattr(STDIN_FILENO, TCSAFLUSH, &new_settings);
 #elif defined(_WIN32)
 		new &= ~(ENABLE_LINE_INPUT | ENABLE_ECHO_INPUT);
 		SetConsoleOutputCP(CP_UTF8);

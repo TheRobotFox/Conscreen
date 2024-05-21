@@ -3,10 +3,10 @@
 #include <stdarg.h>
 #include <stdint.h>
 #include <string.h>
-#include "../List/List.h"
+#include "List/List.h"
 
-/* #define CONSCREEN_CHAR */
-#define CONSCREEN_WCHAR
+#define CONSCREEN_CHAR
+/* #define CONSCREEN_WCHAR */
 
 #ifdef CONSCREEN_WCHAR
 
@@ -21,7 +21,7 @@
 	#define STRNCMP wcsncmp
 	#define PUTS(str) wprintf(L"%ls\n", str)
 	#define PRINTF wprintf
-	#define _STR "%ls"
+	#define _STR "ls"
 
 #elif defined(CONSCREEN_CHAR)
 
@@ -33,7 +33,7 @@
 	#define STRNCMP strncmp
 	#define PUTS puts
 	#define PRINTF printf
-	#define _STR "%s"
+	#define _STR "s"
 
 #else
 	#error NO CHARACTER WIDTH SPECIFIED
@@ -45,7 +45,7 @@ typedef List Conscreen_string;
 
 Conscreen_string Conscreen_string_create();
 void Conscreen_string_free(Conscreen_string cs_string);
-size_t Conscreen_string_size(Conscreen_string cs_string);
+int Conscreen_string_size(Conscreen_string cs_string);
 size_t Conscreen_string_length(Conscreen_string cs_string);
 
 Conscreen_char* Conscreen_string_start(Conscreen_string cs_string);

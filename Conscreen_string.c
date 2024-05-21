@@ -1,4 +1,5 @@
 #include "Conscreen_string.h"
+#include "List/List.h"
 
 Conscreen_string Conscreen_string_create()
 {
@@ -23,19 +24,19 @@ size_t Conscreen_string_length(Conscreen_string cs_string)
 	return List_size(cs_string);
 }
 
-size_t Conscreen_string_size(Conscreen_string cs_string)
+int Conscreen_string_size(Conscreen_string cs_string)
 {
 	return Conscreen_string_length(cs_string)*sizeof(Conscreen_char);
 }
 
 Conscreen_char* Conscreen_string_start(Conscreen_string cs_string)
 {
-	return List_start(cs_string);
+	return LIST_start(Conscreen_char)(cs_string);
 }
 
 Conscreen_char* Conscreen_string_end(Conscreen_string cs_string)
 {
-	return List_end(cs_string);
+	return LIST_end(Conscreen_char)(cs_string);
 }
 
 void Conscreen_string_cat(Conscreen_string cs_string_front, Conscreen_string cs_string_end)
