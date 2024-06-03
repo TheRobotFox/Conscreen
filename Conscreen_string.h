@@ -1,4 +1,5 @@
 #pragma once
+#include <assert.h>
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdint.h>
@@ -14,7 +15,7 @@
 	typedef wchar_t Conscreen_char;
 	//TODO: Set local to UTF-8
 	#define _XSTR(x) L##x
-	#define STR(x)  _XSTR(x)
+	#define _CSTR(x)  _XSTR(x)
 	#define CHR(x) _XSTR(x)
 
 	#define STRLEN wcslen
@@ -26,7 +27,7 @@
 #elif defined(CONSCREEN_CHAR)
 
 	typedef char Conscreen_char;
-	#define STR(x) x
+	#define _CSTR(x) x
 	#define CHR(x) x
 
 	#define STRLEN strlen
@@ -37,8 +38,15 @@
 
 #else
 	#error NO CHARACTER WIDTH SPECIFIED
-
 #endif
+
+#ifdef __cplusplus
+#include <type_traits>
+	#define STR(x) const_cast<Conscreen_char*>(_CSTR(x))
+#else
+	#define STR(x) _CSTR(x)
+#endif
+
 
 typedef List Conscreen_string;
 

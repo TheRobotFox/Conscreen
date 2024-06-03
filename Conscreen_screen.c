@@ -63,7 +63,7 @@ void Conscreen_screen_flush()
 	for(int i=0; i<current_size.x*current_size.y; i++)
 	{
 		if(i && (i%current_size.x)==0){}
-			;//Conscreen_string_push(buffer, STR('\n'));
+			;//Conscreen_string_push(buffer, CHR('\n'));
 
 		Conscreen_pixel p = screen[i];
 		if(!p.character)

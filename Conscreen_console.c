@@ -230,7 +230,7 @@ void Conscreen_console_cursor(bool hide)
 	cci.bVisible=show;
 	SetConsoleCursorInfo(Console_buffer, &cci);
 #else
-	char str[] = ESC CSI "?25";
+	char str[] = ESC CSI "?25\0";
 	str[sizeof(str)-1]=hide ? 'l' : 'h';
 	WRITESTR(str);
 #endif
