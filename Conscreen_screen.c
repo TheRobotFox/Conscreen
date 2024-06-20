@@ -1,6 +1,5 @@
 #include "Conscreen_screen.h"
 #include <assert.h>
-#include <cstdio>
 #include "Conscreen.h"
 #include "Conscreen_ANSI.h"
 
