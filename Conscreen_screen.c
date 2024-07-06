@@ -2,6 +2,7 @@
 #include <assert.h>
 #include "Conscreen.h"
 #include "Conscreen_ANSI.h"
+#include "Conscreen_string.h"
 
 static Conscreen_pixel* screen=0;
 static Conscreen_point current_size = {0};
@@ -73,6 +74,7 @@ void Conscreen_screen_flush()
 	//Conscreen_console_clear();
 	Conscreen_console_cursor_set((Conscreen_point){0,0});
 	WRITE(Conscreen_string_start(buffer), Conscreen_string_size(buffer));
+	Conscreen_string_free(buffer);
 }
 
 void Conscreen_screen_free()
