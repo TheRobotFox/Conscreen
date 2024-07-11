@@ -22,12 +22,28 @@ static void input_buffer_init()
 	}
 }
 
+#ifdef _WIN32
+#else
+#include "unistd.h"
+#include "poll.h"
+bool key_available()
+{
+	struct pollfd set = {.fd=STDIN_FILENO, POLLIN};
+	poll(&set, 1, 20);
+	return set.revents&POLLIN;
+}
+#endif
+
+
 char Conscreen_console_get_key()
 {
 	input_buffer_init();
 	// if buffer is empty/read get new data
 	if(input_buffer.index>=List_size(input_buffer.buffer)){
 		List_clear(input_buffer.buffer);
+
+		if(!key_available()) return 0;
+
 		size_t bytes = fread(List_start(input_buffer.buffer), sizeof(char), List_capacity(input_buffer.buffer), stdin);
 		if(bytes>0)
 			List_resize(input_buffer.buffer, bytes);
